@@ -20,7 +20,6 @@ jobs:
       - name: Build unsigned IPA
         working-directory: .
         run: |
-          dos2unix scripts/build_unsigned_ipa.sh
           chmod +x scripts/build_unsigned_ipa.sh
           ./scripts/build_unsigned_ipa.sh
 
