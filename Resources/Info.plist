@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Questa app usa il Bluetooth per connettersi e controllare il tuo dispositivo IQOS ILUMA.</string>
+	<key>NSBluetoothCentralUsageDescription</key>
+	<string>Questa app ha bisogno del Bluetooth per scansionare e connettersi al tuo dispositivo IQOS ILUMA.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Questa app usa il Bluetooth per leggere stato e inviare comandi al tuo IQOS ILUMA.</string>
 	<key>UIApplicationSceneManifest</key>
