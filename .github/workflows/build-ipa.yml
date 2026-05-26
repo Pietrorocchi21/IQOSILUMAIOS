@@ -1,0 +1,31 @@
+name: Build unsigned IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        working-directory: .
+        run: xcodegen generate
+
+      - name: Build unsigned IPA
+        working-directory: .
+        run: |
+          chmod +x scripts/build_unsigned_ipa.sh
+          ./scripts/build_unsigned_ipa.sh
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: IQOSIlumaIOS-ipa
+          path: build/IQOSIlumaIOS.ipa
+          if-no-files-found: error
