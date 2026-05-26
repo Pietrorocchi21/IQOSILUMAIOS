@@ -11,6 +11,7 @@ echo "==> Building ${APP_NAME} for iOS device (unsigned)"
 rm -rf "${ROOT_DIR}/build"
 mkdir -p "${PAYLOAD_DIR}"
 
+echo "==> Running xcodebuild..."
 xcodebuild \
   -project "${ROOT_DIR}/${APP_NAME}.xcodeproj" \
   -scheme "${APP_NAME}" \
@@ -23,16 +24,24 @@ xcodebuild \
   build
 
 APP_BUNDLE_PATH="${DERIVED_DATA_DIR}/Build/Products/Release-iphoneos/${APP_NAME}.app"
+echo "==> Looking for app bundle at: ${APP_BUNDLE_PATH}"
+
 if [[ ! -d "${APP_BUNDLE_PATH}" ]]; then
-  echo "App bundle not found at: ${APP_BUNDLE_PATH}" >&2
+  echo "❌ App bundle not found at: ${APP_BUNDLE_PATH}" >&2
+  echo "Available directories:" >&2
+  find "${DERIVED_DATA_DIR}" -type d -name "*.app" 2>/dev/null || echo "No .app found" >&2
   exit 1
 fi
 
+echo "==> Copying app bundle to Payload..."
 cp -R "${APP_BUNDLE_PATH}" "${PAYLOAD_DIR}/"
+
+echo "==> Creating IPA..."
 (
   cd "${ROOT_DIR}/build"
   /usr/bin/zip -qry "${IPA_PATH}" Payload
 )
 rm -rf "${PAYLOAD_DIR}"
 
-echo "==> IPA created at: ${IPA_PATH}"
+echo "✅ IPA created at: ${IPA_PATH}"
+ls -lh "${IPA_PATH}"
